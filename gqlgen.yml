@@ -14,3 +14,7 @@ resolver:
   dir: graph
   package: graph
   filename_template: "{name}.resolvers.go"
+
+models:
+  User:
+    model: test/graph/model.User

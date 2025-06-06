@@ -16,5 +16,9 @@ resolver:
   filename_template: "{name}.resolvers.go"
 
 models:
+  models:
   User:
     model: test/graph/model.User
+  AuthPayload:
+    model: test/graph/model.AuthPayload
+

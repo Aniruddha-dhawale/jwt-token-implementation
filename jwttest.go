@@ -12,7 +12,7 @@ import (
 
 func init() {
 	initializers.LoadEnvVariables()
-	initializers.ConnectDatabase()
+	initializers.ConnectDatabas()
 
 }
 
@@ -33,7 +33,6 @@ func main() {
 		srv.ServeHTTP(c.Writer, c.Request)
 	})
 
-	// At the end of main()
 	r.Run(":8080") // Explicitly set to 8080
-		
+
 }

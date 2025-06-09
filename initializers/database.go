@@ -16,10 +16,10 @@ func ConnectDatabase() {
 	}
 
 	// Drop the old users table if it exists
-	_, err = DB.Exec(`DROP TABLE IF EXISTS users`)
+	/*_, err = DB.Exec(`DROP TABLE IF EXISTS users`)
 		if err != nil {
 		log.Fatal("Failed to drop old users table:", err)
-	}
+	}*/
 
 	// Create users table if it doesn't exist
 	_, err = DB.Exec(`

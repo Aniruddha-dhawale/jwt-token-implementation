@@ -19,7 +19,7 @@ import (
 )
 
 // Signup is the resolver for the signup field.
-func (r *mutationResolver) Signup(ctx context.Context, name string, email string, password string, embedding []float64) (*model.User, error) {
+func (r *mutationResolver) Signup(ctx context.Context, name string, email string, password string) (*model.User, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, fmt.Errorf("failed to hash password: %w", err)
@@ -111,25 +111,36 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return users, nil
 }
 
-// SearchUsersByVector is the resolver for the searchUsersByVector field.
-func (r *queryResolver) SearchUsersByVector(ctx context.Context, vector []float64, topK int) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented: SearchUsersByVector - searchUsersByVector"))
-}
-
-// Embedding is the resolver for the embedding field.
-func (r *userResolver) Embedding(ctx context.Context, obj *model.User) ([]float64, error) {
-	panic(fmt.Errorf("not implemented: Embedding - embedding"))
-}
-
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-// User returns generated.UserResolver implementation.
-func (r *Resolver) User() generated.UserResolver { return &userResolver{r} }
-
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-type userResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+/*
+	func (r *mutationResolver) CreateUser(ctx context.Context, name string, email string) (*model.User, error) {
+	res, err := initializers.DB.Exec("INSERT INTO users (name, email) VALUES (?, ?)", name, email)
+	if err != nil {
+		return nil, err
+	}
+	id, err := res.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	user := &model.User{
+		ID:    strconv.FormatInt(id, 10),
+		Name:  name,
+		Email: email,
+	}
+	return user, nil
+}
+*/

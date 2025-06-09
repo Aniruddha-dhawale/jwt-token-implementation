@@ -2,7 +2,6 @@ type User {
   id: ID!
   name: String!
   email: String!
-  embedding: [Float!]!
 }
 
 type AuthPayload {
@@ -12,10 +11,9 @@ type AuthPayload {
 
 type Query {
   users: [User!]!
-  searchUsersByVector(vector: [Float!]!, topK: Int!): [User!]!
 }
 
 type Mutation {
-  signup(name: String!, email: String!, password: String!, embedding: [Float!]!): User!
-  signin(email: String!, password: String!): AuthPayload!
+  signup(name:String!, email: String!, password: String!): User!
+  signin(email: String!, password: String!): AuthPayload!  
 }
